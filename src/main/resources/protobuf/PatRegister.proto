@@ -1,0 +1,70 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+package com.ycx.test.pojo;
+
+message PatRegisterList {
+
+  repeated PatRegister pp = 1;
+
+  message PatRegister {
+    int64 pat_id = 1;                // 对应 Java 中的 Long
+    string branch_code = 2;          // 对应 Java 中的 String
+    int32 card_type = 3;             // 对应 Java 中的 Short
+    string card_data = 4;            // 对应 Java 中的 String
+    string name = 5;                 // 对应 Java 中的 String
+    int32 sex = 6;                  // 对应 Java 中的 Short
+    google.protobuf.Timestamp date_of_birth = 7;   // 对应 Java 中的 Date, 使用 Timestamp 类型
+    string time_of_birth = 8;        // 对应 Java 中的 String
+    string nationality = 9;          // 对应 Java 中的 String
+    string province = 10;            // 对应 Java 中的 String
+    string city = 11;                // 对应 Java 中的 String
+    string county = 12;              // 对应 Java 中的 String
+    string town = 13;                // 对应 Java 中的 String
+    string community = 14;           // 对应 Java 中的 String
+    string town_name = 15;           // 对应 Java 中的 String
+    string community_name = 16;      // 对应 Java 中的 String
+    string road = 17;                // 对应 Java 中的 String
+    string lane = 18;                // 对应 Java 中的 String
+    string no = 19;                  // 对应 Java 中的 String
+    string room = 20;                // 对应 Java 中的 String
+    string tele_phone = 21;          // 对应 Java 中的 String
+    int32 id_card_type = 22;         // 对应 Java 中的 Short
+    string id_card = 23;             // 对应 Java 中的 String
+    string profession = 24;          // 对应 Java 中的 String
+    string married = 25;             // 对应 Java 中的 String
+    string blood_abo = 26;           // 对应 Java 中的 String
+    string blood_rh = 27;            // 对应 Java 中的 String
+    string ethnic = 28;              // 对应 Java 中的 String
+    string email = 29;               // 对应 Java 中的 String
+    string mobile_phone = 30;        // 对应 Java 中的 String
+    string post = 31;                // 对应 Java 中的 String
+    string family_phone = 32;        // 对应 Java 中的 String
+    string addr = 33;                // 对应 Java 中的 String
+    string contacts_type = 34;       // 对应 Java 中的 String
+    string contacts_name = 35;       // 对应 Java 中的 String
+    string contacts_phone = 36;      // 对应 Java 中的 String
+    string contacts_addr = 37;       // 对应 Java 中的 String
+    string culture_level = 38;       // 对应 Java 中的 String
+    string work_unit = 39;           // 对应 Java 中的 String
+    string work_addr = 40;           // 对应 Java 中的 String
+    string work_phone = 41;          // 对应 Java 中的 String
+    int32 privacy_level = 42;        // 对应 Java 中的 Short
+    int32 is_temp = 43;              // 对应 Java 中的 Short
+    int32 is_invalid = 44;           // 对应 Java 中的 Short
+    string dcd = 45;                 // 对应 Java 中的 String
+    google.protobuf.Timestamp reg_time = 46;  // 对应 Java 中的 Date, 使用 Timestamp 类型
+    int32 price_type = 47;           // 对应 Java 中的 Short
+    string pat_no = 48;              // 对应 Java 中的 String
+    string reg_branch = 49;          // 对应 Java 中的 String
+    string remark = 50;              // 对应 Java 中的 String
+    int32 pat_type = 51;             // 对应 Java 中的 Short
+    string eng_name = 52;            // 对应 Java 中的 String
+    string passport = 53;            // 对应 Java 中的 String
+    string plat_pat_id = 54;         // 对应 Java 中的 String
+    string detail_addr = 55;         // 对应 Java 中的 String
+    string disabled_no = 56;         // 对应 Java 中的 String
+    int64 regId = 57;
+    int32 sourceType = 58;
+  }
+
+}

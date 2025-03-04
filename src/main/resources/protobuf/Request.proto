@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package example;
+
+// HTTP 请求的消息结构
+message HttpRequest {
+    // 请求方法，例如 GET, POST, PUT, DELETE 等
+    string method = 1;
+
+    // 请求的 URL（包括路径和查询字符串）
+    string url = 2;
+
+    // 请求头（多个 Key-Value 对）
+    repeated Header headers = 3;
+
+    // 请求体
+    bytes body = 4;
+
+    // HTTP 协议版本，如 "HTTP/1.1" 或 "HTTP/2"
+    string version = 5;
+
+    // 查询参数（可选：从 URL 中提取的键值对）
+    repeated QueryParameter query_params = 6;
+
+    // HTTP 请求头的结构体定义
+    message Header {
+        string key = 1;
+        string value = 2;
+    }
+
+    // 查询参数的结构体定义
+    message QueryParameter {
+        string key = 1;
+        string value = 2;
+    }
+}
