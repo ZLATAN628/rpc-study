@@ -2,17 +2,14 @@ package com.ycx;
 
 import com.ycx.net.rpc.server.KtRpcServer;
 import com.ycx.net.test.*;
-import org.noear.solon.annotation.*;
 
-@Controller
 public class ServerTest {
 
-    @Inject(value = "${db.tx}")
     private String tx;
 
     public static void main(String[] args) throws Throwable {
 
-        KtRpcServer server = new KtRpcServer();
+        KtRpcServer server = new KtRpcServer(null);
         HelloImpl1 h1 = new HelloImpl1();
         HelloImpl2 h2 = new HelloImpl2();
         RpcTestImpl rpcTest = new RpcTestImpl();
@@ -27,11 +24,4 @@ public class ServerTest {
 //        });
     }
 
-    @Mapping("/hello")
-    @Get
-    @Post
-    public String hello() {
-        System.out.println(tx);
-        return "Hello World!";
-    }
 }

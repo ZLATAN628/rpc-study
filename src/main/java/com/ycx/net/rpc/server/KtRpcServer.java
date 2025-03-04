@@ -1,14 +1,11 @@
 package com.ycx.net.rpc.server;
 
 import com.ycx.net.cluster.Coordinator;
-import com.ycx.net.cluster.NodeRole;
 import com.ycx.net.rpc.codec.RpcProtocol;
 import com.ycx.net.rpc.codec.RpcRequest;
 import com.ycx.net.rpc.serializer.HessianSerializer;
 import com.ycx.net.rpc.serializer.Serializer;
 import com.ycx.net.rpc.util.ServiceUtil;
-import org.noear.solon.boot.ServerLifecycle;
-import org.noear.solon.core.util.NamedThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smartboot.socket.Protocol;
@@ -27,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.ycx.net.cluster.NodeRole.CANDIDATE;
 
-public class KtRpcServer implements ServerLifecycle {
+public class KtRpcServer {
     private static final Logger log = LoggerFactory.getLogger(KtRpcServer.class);
     static String nodeId;
 
@@ -42,8 +39,7 @@ public class KtRpcServer implements ServerLifecycle {
     private ExecutorService executor = new ThreadPoolExecutor(getCoreThreadNum(),
             getCoreThreadNum() * 32,
             60, TimeUnit.SECONDS,
-            new SynchronousQueue<>(),
-            new NamedThreadFactory("rpc-server"));
+            new SynchronousQueue<>());
 
     private final List<Plugin> plugins = new ArrayList<>();
     private final Serializer serializer;
@@ -56,7 +52,6 @@ public class KtRpcServer implements ServerLifecycle {
         this.coordinator = coordinator;
     }
 
-    @Override
     public void start(String host, int port) throws Throwable {
         // 等待选举完成 TODO 是否需要异步
         this.coordinator.startElection();

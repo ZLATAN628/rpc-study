@@ -53,7 +53,7 @@ public class Vote {
     }
 
     public ByteBuffer toByteBuffer() {
-        byte[] bytes = new byte[12];
+        byte[] bytes = new byte[20];
         ByteBuffer buffer = ByteBuffer.wrap(bytes);
 
         buffer.clear();

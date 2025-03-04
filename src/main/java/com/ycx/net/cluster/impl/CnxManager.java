@@ -52,13 +52,14 @@ public class CnxManager {
     private ThreadPoolExecutor connectionExecutor;
 
 
-    public CnxManager(int myId, InetSocketAddress listenAddress, int connectThreadsSize) {
+    public CnxManager(int myId, InetSocketAddress listenAddress,
+                      int connectThreadsSize, Map<Integer, InetSocketAddress> allNodes) {
         this.listenAddress = listenAddress;
         this.recvQueue = new ArrayBlockingQueue<>(RECV_CAPACITY);
         this.sendWorkerMap = new ConcurrentHashMap<>(4);
         this.sendDataMap = new ConcurrentHashMap<>(4);
         this.lastSendMsgMap = new ConcurrentHashMap<>(4);
-
+        this.allNodes = allNodes;
         this.myId = myId;
 
         final AtomicInteger threadIndex = new AtomicInteger(1);
@@ -188,7 +189,7 @@ public class CnxManager {
                     serverSocket = new ServerSocket();
                     serverSocket.setReuseAddress(true);
                     serverSocket.bind(listenAddress);
-                    log.info("{} is accepting connections now, my election bind port: {}", myId, listenAddress.getPort());
+                    log.info("node {} is accepting connections now, my election bind port: {}", myId, listenAddress.getPort());
                     while (!shutdown) {
                         client = serverSocket.accept();
                         setSockOpts(client);

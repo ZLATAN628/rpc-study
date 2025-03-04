@@ -1,6 +1,6 @@
 package com.ycx.net.monitor;
 
-import com.kingtsoft.tanger.net.task.TaskCommand;
+import com.ycx.net.task.TaskCommand;
 
 public class CommandTrace {
     private String commandId;

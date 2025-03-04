@@ -3,7 +3,6 @@ package com.ycx.net.cluster.impl;
 import com.ycx.net.common.TangerThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.smartboot.http.common.utils.CollectionUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
@@ -72,7 +71,7 @@ public class SendWorker extends TangerThread {
     public void run() {
         try {
             BlockingQueue<ByteBuffer> buffers = cnxManager.getSendData(nodeId);
-            if (CollectionUtils.isEmpty(buffers)) {
+            if (buffers == null || buffers.isEmpty()) {
                 /**
                  * If there is nothing in the queue to send,
                  * send last vote

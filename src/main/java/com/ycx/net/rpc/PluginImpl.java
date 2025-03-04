@@ -1,18 +1,14 @@
 package com.ycx.net.rpc;
 
 import com.ycx.net.cluster.Coordinator;
-import com.ycx.net.http.handler.MultipartUtil;
 import com.ycx.net.rpc.server.KtRpcServer;
-import org.noear.solon.boot.ServerProps;
-
-import java.net.InetSocketAddress;
 
 import static com.ycx.net.cluster.impl.AbstractCoordinator.CoordinatorBuilder;
 
 public class PluginImpl {
-    private KtRpcServer _server;
+    private static KtRpcServer _server;
 
-    public void start() {
+    public static void main(String[] args) {
         try {
             start0();
         } catch (Throwable e) {
@@ -20,11 +16,7 @@ public class PluginImpl {
         }
     }
 
-    private void start0() throws Throwable {
-        //初始化属性
-        ServerProps.init();
-        MultipartUtil.init();
-
+    private static void start0() throws Throwable {
         // TODO 配置获取
         String host = "172.16.142.208";
         String allNodesAddress = "server.3=172.16.142.208:8077:8076,server.2=172.16.140.41:8077:8076,server.1=172.16.145.239:8077:8076";

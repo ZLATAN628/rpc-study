@@ -82,7 +82,7 @@ public abstract class AbstractCoordinator implements Coordinator {
         this.recvQueue = new LinkedBlockingQueue<>();
         this.votingMap = new HashMap<>();
         parseNodeAddress(allNodesAddress);
-        this.cnxManager = new CnxManager(nodeId, listenAddress, connectThreadsSize);
+        this.cnxManager = new CnxManager(nodeId, listenAddress, connectThreadsSize, allNodesElectionAddress);
     }
 
     private void parseNodeAddress(String allNodesAddress) {
@@ -118,6 +118,7 @@ public abstract class AbstractCoordinator implements Coordinator {
 
     @Override
     public void startElection() {
+        log.info("start election");
         if (this.workerReceiver.getState() == Thread.State.NEW) {
             this.workerReceiver.start();
         }
@@ -324,30 +325,38 @@ public abstract class AbstractCoordinator implements Coordinator {
 
     private class WorkerReceiver extends TangerThread {
 
+        private volatile boolean running;
+
         public WorkerReceiver(String name) {
             super(name);
+            running = true;
         }
 
         @Override
         public void run() {
-            try {
-                Vote vote = cnxManager.pollVote(3000, TimeUnit.MICROSECONDS);
-                if (vote != null) {
-                    if (currentRole != NodeRole.CANDIDATE) {
-                        cnxManager.sendVote(vote.getNodeId(), vote);
-                        if (currentRole == NodeRole.LEADER) {
-                            // 添加进子节点
-                            votingMap.put(vote.getNodeId(), vote);
-                            addSubNode(vote.getNodeId());
+            while (running) {
+                try {
+                    Vote vote = cnxManager.pollVote(3000, TimeUnit.MICROSECONDS);
+                    if (vote != null) {
+                        if (currentRole != NodeRole.CANDIDATE) {
+                            cnxManager.sendVote(vote.getNodeId(), vote);
+                            if (currentRole == NodeRole.LEADER) {
+                                // 添加进子节点
+                                votingMap.put(vote.getNodeId(), vote);
+                                addSubNode(vote.getNodeId());
+                            }
+                        } else {
+                            recvQueue.put(vote);
                         }
-                    } else {
-                        recvQueue.put(vote);
                     }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
+        }
 
+        public void end() {
+            running = false;
         }
     }
 }
