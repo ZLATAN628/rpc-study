@@ -204,7 +204,6 @@ public abstract class AbstractCoordinator implements Coordinator {
                     if (checkLeader(leader)) {
                         // 结束竞选
                         updateVote(vote);
-                        currentRole = proposedLeader == myId ? NodeRole.LEADER : NodeRole.FOLLOWER;
                         endElection();
                     }
                 }
@@ -220,6 +219,7 @@ public abstract class AbstractCoordinator implements Coordinator {
     }
 
     private void endElection() {
+        currentRole = proposedLeader == myId ? NodeRole.LEADER : NodeRole.FOLLOWER;
         if (currentRole == NodeRole.LEADER) {
             for (Map.Entry<Integer, Vote> entry : votingMap.entrySet()) {
                 if (entry.getKey() != myId) {
