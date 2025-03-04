@@ -220,6 +220,7 @@ public abstract class AbstractCoordinator implements Coordinator {
 
     private void endElection() {
         currentRole = proposedLeader == myId ? NodeRole.LEADER : NodeRole.FOLLOWER;
+        currentVote.setRole(currentRole);
         if (currentRole == NodeRole.LEADER) {
             for (Map.Entry<Integer, Vote> entry : votingMap.entrySet()) {
                 if (entry.getKey() != myId) {
@@ -268,6 +269,10 @@ public abstract class AbstractCoordinator implements Coordinator {
         if (address != null) {
             // TODO nodeId String 还是 Integer
             nodeMap.put(nodeId, new Node(nodeId + "", address.getHostName(), address.getPort()));
+
+            for (Map.Entry<Integer, Node> entry : nodeMap.entrySet()) {
+                log.info("have sub node {}", entry.getKey());
+            }
         }
     }
 
