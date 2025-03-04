@@ -308,7 +308,7 @@ public class CnxManager {
             dout = new DataOutputStream(new BufferedOutputStream(sock.getOutputStream()));
             din = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
             // send initial msg
-            InitialMessage.writeMsg(dout, nodeId, listenAddress);
+            InitialMessage.writeMsg(dout, myId, listenAddress);
         } catch (IOException e) {
             closeSocket(sock);
             return;
