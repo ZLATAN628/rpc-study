@@ -344,7 +344,7 @@ public abstract class AbstractCoordinator implements Coordinator {
                     Vote vote = cnxManager.pollVote(3000, TimeUnit.MICROSECONDS);
                     if (vote != null) {
                         if (currentRole != NodeRole.CANDIDATE) {
-                            cnxManager.sendVote(vote.getNodeId(), vote);
+                            cnxManager.sendVote(vote.getNodeId(), currentVote);
                             if (currentRole == NodeRole.LEADER) {
                                 // 添加进子节点
                                 votingMap.put(vote.getNodeId(), vote);
