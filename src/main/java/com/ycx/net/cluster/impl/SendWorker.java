@@ -54,6 +54,7 @@ public class SendWorker extends TangerThread {
     }
 
     synchronized void send(ByteBuffer buffer) throws IOException {
+        log.info("send buffer: {}", buffer);
         byte[] bytes = new byte[buffer.capacity()];
         try {
             buffer.position(0);

@@ -138,10 +138,8 @@ public class CnxManager {
             recvVote(vote);
         } else {
             ByteBuffer buffer = vote.toByteBuffer();
+            sendDataMap.putIfAbsent(targetNode, new ArrayBlockingQueue<>(SEND_CAPACITY));
             BlockingQueue<ByteBuffer> sendBuffers = sendDataMap.get(targetNode);
-            if (sendBuffers == null) {
-                sendBuffers = new ArrayBlockingQueue<>(SEND_CAPACITY);
-            }
             if (sendBuffers.remainingCapacity() == 0) {
                 try {
                     sendBuffers.remove();
@@ -213,6 +211,7 @@ public class CnxManager {
                 InitialMessage msg = InitialMessage.parse(din);
                 int nodeId = msg.getNodeId();
 
+                log.info("node {} received connection from {}", myId, nodeId);
                 if (nodeId < myId) {
                     // win the challenge
                     SendWorker sendWorker = sendWorkerMap.get(nodeId);
@@ -247,6 +246,7 @@ public class CnxManager {
     }
 
     private void holdConnection(Socket client, int nodeId, DataInputStream din) {
+        log.info("node {} hold connection to {}", myId, nodeId);
         SendWorker sendWorker = new SendWorker(client, nodeId, CnxManager.this);
         RecvWorker recvWorker = new RecvWorker(client, din, nodeId, sendWorker, CnxManager.this);
         sendWorker.setRecvWorker(recvWorker);
